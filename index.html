@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#FCFCFD" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0B0D12" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!--preload-->
+    <!--head-->
+    <script>
+      ;(function () {
+        try {
+          var t = localStorage.getItem('dx-theme')
+          if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          document.documentElement.dataset.theme = t
+        } catch (e) {}
+        document.documentElement.classList.add('js')
+        // Failsafe: if the app bundle never boots, show all content rather than leaving it hidden.
+        setTimeout(function () {
+          if (!document.documentElement.classList.contains('app-ready')) document.documentElement.classList.remove('js')
+        }, 4000)
+        var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches
+        if (reduce) document.documentElement.classList.add('reduce-motion')
+        try {
+          if (!reduce && !sessionStorage.getItem('dx-intro') && !/bot|crawl|spider/i.test(navigator.userAgent))
+            document.documentElement.classList.add('intro')
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"><!--app--></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
